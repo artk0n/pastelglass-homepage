@@ -1,8 +1,21 @@
 
+:root[data-theme="pastel"] {
+  --bg: linear-gradient(to bottom right, #e3e8f0, #fdfdff);
+  --text: #333;
+}
+:root[data-theme="dark"] {
+  --bg: #111;
+  --text: #eee;
+}
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --text: #222;
+}
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(to bottom right, #e3e8f0, #fdfdff);
+  background: var(--bg);
+  color: var(--text);
 }
 .sidebar {
   width: 220px;
@@ -13,10 +26,10 @@ body {
   position: fixed;
   transition: width 0.3s ease;
 }
-.sidebar nav a {
+.sidebar nav a, .ai-launcher a {
   display: block;
   margin: 0.5rem 0;
-  color: #333;
+  color: inherit;
   text-decoration: none;
 }
 .main-panel {
@@ -26,4 +39,18 @@ body {
 textarea {
   width: 100%;
   height: 100px;
+}
+.theme-switcher button,
+#bg-switcher button {
+  margin: 4px;
+  padding: 5px;
+}
+#bg-video {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  display: none;
 }

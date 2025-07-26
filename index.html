@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="pastel">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PastelGlass v2</title>
+  <title>PastelGlass v3</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
@@ -19,10 +19,15 @@
         <a href="https://coinspot.com.au" target="_blank">💰 Coinspot</a>
         <a href="https://civitai.com" target="_blank">🧠 Civitai</a>
       </nav>
+      <div class="theme-switcher">
+        <button onclick="setTheme('light')">☀️</button>
+        <button onclick="setTheme('dark')">🌙</button>
+        <button onclick="setTheme('pastel')">🎨</button>
+      </div>
     </aside>
     <main class="main-panel">
       <section id="clock"></section>
-      <section id="weather">Weather widget (coming)</section>
+      <section id="weather">Loading weather...</section>
       <section>
         <textarea id="notes" placeholder="Write notes here..."></textarea>
       </section>
@@ -33,8 +38,19 @@
         <input type="text" id="new-task" placeholder="New task..." />
         <button onclick="addTask()">Add</button>
       </section>
+      <section id="bg-switcher">
+        <button onclick="setBackground(0)">🌄 Image</button>
+        <button onclick="setBackground(1)">🌌 Video</button>
+        <button onclick="setBackground(2)">🎨 Default</button>
+      </section>
+      <section class="ai-launcher">
+        <a href="https://chat.openai.com" target="_blank">💬 ChatGPT</a>
+        <a href="http://localhost:8188" target="_blank">🧩 ComfyUI</a>
+        <a href="https://civitai.com" target="_blank">🖼 Civitai</a>
+      </section>
     </main>
   </div>
+  <video id="bg-video" autoplay loop muted></video>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

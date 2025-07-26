@@ -4,13 +4,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PastelGlass Homepage</title>
+  <title>PastelGlass v2</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
 <body>
-  <div id="app">
-    <aside class="sidebar">Sidebar (collapsible)</aside>
-    <main class="main-panel">Main Panel (tabs + widgets)</main>
+  <div class="app">
+    <aside id="sidebar" class="sidebar">
+      <button onclick="toggleSidebar()">☰</button>
+      <nav>
+        <a href="https://stake.com" target="_blank">🎰 Stake</a>
+        <a href="https://shuffle.com" target="_blank">🎲 Shuffle</a>
+        <a href="https://twitch.tv" target="_blank">📺 Twitch</a>
+        <a href="https://kick.com" target="_blank">🎥 Kick</a>
+        <a href="https://coinspot.com.au" target="_blank">💰 Coinspot</a>
+        <a href="https://civitai.com" target="_blank">🧠 Civitai</a>
+      </nav>
+    </aside>
+    <main class="main-panel">
+      <section id="clock"></section>
+      <section id="weather">Weather widget (coming)</section>
+      <section>
+        <textarea id="notes" placeholder="Write notes here..."></textarea>
+      </section>
+      <section>
+        <ul id="todo-list">
+          <li><input type="checkbox"> Example task</li>
+        </ul>
+        <input type="text" id="new-task" placeholder="New task..." />
+        <button onclick="addTask()">Add</button>
+      </section>
+    </main>
   </div>
   <script src="assets/js/main.js"></script>
 </body>

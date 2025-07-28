@@ -54,3 +54,22 @@ textarea {
   z-index: -1;
   display: none;
 }
+
+/* Floating Panel Enhancements */
+.floating {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: move;
+  background: rgba(20, 20, 30, 0.7);
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: var(--glow-soft);
+  backdrop-filter: var(--blur);
+  z-index: 99;
+  min-width: 160px;
+  user-select: none;
+}
+.floating:hover {
+  box-shadow: var(--glow-deep);
+}

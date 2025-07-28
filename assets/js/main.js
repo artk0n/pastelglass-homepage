@@ -1,48 +1,72 @@
-
-function toggleSidebar() {
-  const sidebar = document.getElementById("sidebar");
-  sidebar.style.width = sidebar.style.width === "60px" ? "220px" : "60px";
-}
+// ========== Clock ==========
 function updateClock() {
   const now = new Date();
-  document.getElementById("clock").innerText = now.toLocaleString();
+  const timeStr = now.toLocaleTimeString();
+  document.getElementById('liveClock').textContent = timeStr;
 }
 setInterval(updateClock, 1000);
 updateClock();
 
-function addTask() {
-  const task = document.getElementById("new-task").value;
-  if (task.trim()) {
-    const li = document.createElement("li");
-    li.innerHTML = '<input type="checkbox"> ' + task;
-    document.getElementById("todo-list").appendChild(li);
-    document.getElementById("new-task").value = "";
-  }
+// ========== Tabs ==========
+function switchTab(tabId) {
+  const tabs = ['clock', 'bookmarks', 'notes', 'weather'];
+  tabs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = (id === tabId) ? 'block' : 'none';
+  });
+  localStorage.setItem('lastTab', tabId);
 }
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
+document.addEventListener('DOMContentLoaded', () => {
+  const lastTab = localStorage.getItem('lastTab') || 'clock';
+  switchTab(lastTab);
+  restorePositions();
+  fetchWeather();
+});
+
+// ========== Dragging ==========
+function makeDraggable(el) {
+  let offsetX, offsetY, isDown = false;
+  el.onmousedown = function(e) {
+    isDown = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    el.style.zIndex = 1000;
+  };
+  document.onmouseup = () => isDown = false;
+  document.onmousemove = function(e) {
+    if (!isDown) return;
+    el.style.left = (e.clientX - offsetX) + 'px';
+    el.style.top = (e.clientY - offsetY) + 'px';
+    savePosition(el.id, el.style.left, el.style.top);
+  };
 }
-function setBackground(mode) {
-  const vid = document.getElementById('bg-video');
-  if (mode === 0) {
-    document.body.style.background = "url('https://picsum.photos/1920/1080') center/cover";
-    vid.style.display = 'none';
-  } else if (mode === 1) {
-    document.body.style.background = "none";
-    vid.src = "https://www.w3schools.com/howto/rain.mp4";
-    vid.style.display = 'block';
-  } else {
-    document.body.style.background = "";
-    vid.style.display = 'none';
-  }
+function savePosition(id, x, y) {
+  localStorage.setItem('pos_' + id, JSON.stringify({x, y}));
 }
+function restorePositions() {
+  document.querySelectorAll('.floating').forEach(el => {
+    const saved = localStorage.getItem('pos_' + el.id);
+    if (saved) {
+      const {x, y} = JSON.parse(saved);
+      el.style.left = x;
+      el.style.top = y;
+    }
+    makeDraggable(el);
+  });
+}
+
+// ========== Weather API ==========
 function fetchWeather() {
-  fetch('https://api.weatherapi.com/v1/current.json?key=demo&q=auto:ip')
+  const url = 'https://wttr.in/?format=j1';
+  fetch(url)
     .then(res => res.json())
     .then(data => {
-      const out = `${data.location.name}: ${data.current.temp_c}°C, ${data.current.condition.text}`;
-      document.getElementById("weather").innerText = out;
+      const area = data.nearest_area[0].areaName[0].value;
+      const temp = data.current_condition[0].temp_C;
+      const cond = data.current_condition[0].weatherDesc[0].value;
+      document.getElementById('weatherInfo').innerText = `${area}: ${temp}°C – ${cond}`;
     })
-    .catch(() => document.getElementById("weather").innerText = "Weather API limit reached.");
+    .catch(err => {
+      document.getElementById('weatherInfo').innerText = 'Weather unavailable';
+    });
 }
-fetchWeather();
